@@ -10,6 +10,6 @@ namespace ThAmCo.Catering.Data
         public required string Description { get; set; }
         public required float UnitPrice { get; set; }
 
-        public MenuFoodItem? MenuFoodItems { get; set; } // initialise one-to-many relationship with MenuFoodItem class
+        public List<MenuFoodItem>? MenuFoodItems { get; set; } // initialise one-to-many relationship with MenuFoodItem class
     }
 }

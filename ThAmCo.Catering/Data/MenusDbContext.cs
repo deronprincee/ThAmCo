@@ -2,7 +2,7 @@
 
 namespace ThAmCo.Catering.Data
 {
-    public class BookingDbContext
+    public class MenusDbContext : DbContext
     {
         public DbSet<Menu> Menu { get; set; }
         public DbSet<FoodBooking> FoodBookings { get; set; }
@@ -11,11 +11,11 @@ namespace ThAmCo.Catering.Data
         private string DbPath { get; set; } = string.Empty;
 
         // Constructor to set-up the database path & name
-        public BookingDbContext()
+        public MenusDbContext()
         {
             var folder = Environment.SpecialFolder.MyDocuments;
             var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "vista.trainers.db");
+            DbPath = Path.Join(path, "thamco.menus.db");
         }
     }
 }
