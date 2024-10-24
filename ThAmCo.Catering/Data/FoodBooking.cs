@@ -10,7 +10,7 @@ namespace ThAmCo.Catering.Data
         public required int NumberOfGuests { get; set; }
         public required int MenuId { get; set; } //MenuId set as foreign key
 
-        public Menu? Menus { get; set; } // initialise one-to-many relationship with Menu class
+        public Menu? Menu { get; set; } // initialise one-to-many relationship with Menu class
 
 
 

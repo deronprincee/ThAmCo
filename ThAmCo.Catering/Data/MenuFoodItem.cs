@@ -10,8 +10,8 @@ namespace ThAmCo.Catering.Data
         [Key]
         public string FoodItemId { get; set; }
 
-        public FoodItem? FoodItems { get; set; } // initialise one-to-many relationship with FoodItem class
-        public Menu? Menus { get; set; } // initialise one-to-many relationship with Menu class
+        public FoodItem? FoodItem { get; set; } // initialise one-to-many relationship with FoodItem class
+        public Menu? Menu { get; set; } // initialise one-to-many relationship with Menu class
     }
 }
  
