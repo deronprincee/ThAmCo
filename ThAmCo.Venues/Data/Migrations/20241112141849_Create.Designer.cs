@@ -11,13 +11,14 @@ using ThAmCo.Venues.Data;
 namespace ThAmCo.Venues.Data.Migrations
 {
     [DbContext(typeof(VenuesDbContext))]
-    [Migration("20221029235949_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241112141849_Create")]
+    partial class Create
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
             modelBuilder.Entity("ThAmCo.Venues.Data.Availability", b =>
                 {
