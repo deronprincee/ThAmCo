@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Catering.Data;
+using ThAmCo.Catering.Dtos;
 
 namespace ThAmCo.Catering.Controllers
 {
@@ -75,8 +76,14 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/FoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItem foodItem)
+        public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItemDto foodItemDto)
         {
+            var foodItem = new FoodItem
+            {
+                Description = foodItemDto.Description,
+                UnitPrice = foodItemDto.UnitPrice
+            };
+
             _context.FoodItems.Add(foodItem);
             await _context.SaveChangesAsync();
 
