@@ -30,7 +30,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodBookings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FoodBooking>> GetFoodBooking(int id)
+        public async Task<ActionResult<FoodBooking>> GetFoodBooking (int id)
         {
             var foodBooking = await _context.FoodBookings.FindAsync(id);
 
