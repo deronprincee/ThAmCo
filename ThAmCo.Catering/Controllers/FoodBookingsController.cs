@@ -21,27 +21,6 @@ namespace ThAmCo.Catering.Controllers
             _context = context;
         }
 
-        // GET: api/FoodBookings
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<FoodBooking>>> GetFoodBookings()
-        {
-            return await _context.FoodBookings.ToListAsync();
-        }
-
-        // GET: api/FoodBookings/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FoodBooking>> GetFoodBooking (int id)
-        {
-            var foodBooking = await _context.FoodBookings.FindAsync(id);
-
-            if (foodBooking == null)
-            {
-                return NotFound();
-            }
-
-            return foodBooking;
-        }
-
         // PUT: api/FoodBookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -78,14 +57,27 @@ namespace ThAmCo.Catering.Controllers
         [HttpPost]
         public async Task<ActionResult<FoodBooking>> PostFoodBooking(FoodBookingDto foodBookingDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var foodBooking = new FoodBooking
             {
                 ClientReferenceId = foodBookingDto.ClientReferenceId,
                 NumberOfGuests = foodBookingDto.NumberOfGuests,
             };
 
-            _context.FoodBookings.Add(foodBooking);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.FoodBookings.Add(foodBooking);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can use a logging framework like Serilog, NLog, etc.)
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
 
             return CreatedAtAction("GetFoodBooking", new { id = foodBooking.FoodBookingId }, foodBooking);
         }

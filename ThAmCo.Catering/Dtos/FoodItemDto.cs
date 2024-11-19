@@ -5,8 +5,9 @@ namespace ThAmCo.Catering.Dtos
 {
     public class FoodItemDto
     {
-            public required string Description { get; set; }
-            public required float UnitPrice { get; set; }
+        public int FoodItemId { get; set; }
+        public  string Description { get; set; }
+        public float UnitPrice { get; set; }
 
     }
 }

@@ -25,32 +25,60 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FoodItem>>> GetFoodItems()
         {
-            return await _context.FoodItems.ToListAsync();
+            var foodItem = await _context.FoodItems
+                .Select(fi => new FoodItemDto
+                {
+                    FoodItemId = fi.FoodItemId,
+                    Description = fi.Description,
+                    UnitPrice = fi.UnitPrice,
+                })
+                .ToListAsync();
+            if (foodItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(foodItem);
         }
 
         // GET: api/FoodItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FoodItem>> GetFoodItem(int id)
+        [HttpGet("by-description")]
+        public async Task<ActionResult<FoodItemDto>> GetFoodItem(string description)
         {
-            var foodItem = await _context.FoodItems.FindAsync(id);
+            var foodItem = await _context.FoodItems
+                .Where(fi => fi.Description == description)
+                .Select(fi => new FoodItemDto
+                {
+                    FoodItemId = fi.FoodItemId,
+                    Description = fi.Description,
+                    UnitPrice = fi.UnitPrice,
+                })
+                .FirstOrDefaultAsync();
+            if (foodItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(foodItem);
+        }
 
+        // PUT: api/FoodItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("by-description")]
+        public async Task<IActionResult> PutFoodItem(string description, FoodItem foodItemDto)
+        {
+            if (description != foodItemDto.Description)
+            {
+                return BadRequest();
+            }
+
+            var foodItem = await _context.FoodItems.FindAsync(description);
             if (foodItem == null)
             {
                 return NotFound();
             }
 
-            return foodItem;
-        }
-
-        // PUT: api/FoodItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFoodItem(int id, FoodItem foodItem)
-        {
-            if (id != foodItem.FoodItemId)
-            {
-                return BadRequest();
-            }
+            foodItem.FoodItemId = foodItemDto.FoodItemId;
+            foodItem.Description = foodItemDto.Description;
+            foodItem.UnitPrice = foodItem.UnitPrice;
 
             _context.Entry(foodItem).State = EntityState.Modified;
 
@@ -60,7 +88,7 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FoodItemExists(id))
+                if (!FoodItemExists(foodItem.FoodItemId))
                 {
                     return NotFound();
                 }
