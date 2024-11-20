@@ -23,16 +23,35 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/Menus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Menu>>> GetMenu()
+        public async Task<ActionResult<IEnumerable<MenuDto>>> GetMenu()
         {
-            return await _context.Menu.ToListAsync();
+            var menu = await _context.Menus
+                .Select(m => new MenuDto
+                { 
+                    MenuId = m.MenuId,
+                    MenuName = m.MenuName
+                })
+                .ToListAsync();
+
+            if (menu == null)
+            {
+                return NotFound();
+            }
+            return Ok(menu);
         }
 
         // GET: api/Menus/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Menu>> GetMenu(int id)
+        [HttpGet("by-menuName")]
+        public async Task<ActionResult<MenuDto>> GetMenu(string menuName)
         {
-            var menu = await _context.Menu.FindAsync(id);
+            var menu = await _context.Menus
+                .Where(m => m.MenuName == menuName)
+                .Select(m => new MenuDto
+                {
+                    MenuId = m.MenuId,
+                    MenuName = m.MenuName
+                })
+                .FirstOrDefaultAsync();
 
             if (menu == null)
             {
@@ -44,14 +63,18 @@ namespace ThAmCo.Catering.Controllers
 
         // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenu(int id, Menu menu)
+        [HttpPut("by-menuName")]
+        public async Task<IActionResult> PutMenu(string menuName, CreateAndUpdateMenuDto updateMenuDto)
         {
-            if (id != menu.MenuId)
+            var menu = await _context.Menus
+                .FirstOrDefaultAsync(m => m.MenuName == menuName);
+            if (menu == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
+            menu.MenuName = updateMenuDto.MenuName;
+            
             _context.Entry(menu).State = EntityState.Modified;
 
             try
@@ -60,7 +83,7 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MenuExists(id))
+                if (!MenuExists(menu.MenuId))
                 {
                     return NotFound();
                 }
@@ -76,37 +99,66 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/Menus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Menu>> PostMenu(MenuDto menuDto)
+        public async Task<ActionResult<MenuDto>> PostMenu(CreateAndUpdateMenuDto createMenuDto)
         {
             var menu = new Menu
             {
-                MenuName = menuDto.MenuName,
+                MenuName = createMenuDto.MenuName
             };
-            _context.Menu.Add(menu);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                _context.Menus.Add(menu);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+
+            var menuCreatedDto = new MenuDto
+            {
+                MenuId = menu.MenuId,
+                MenuName = menu.MenuName
+            };
 
             return CreatedAtAction("GetMenu", new { id = menu.MenuId }, menu);
         }
 
         // DELETE: api/Menus/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMenu(int id)
+        [HttpDelete("by-menuName")]
+        public async Task<IActionResult> DeleteMenu(string menuName)
         {
-            var menu = await _context.Menu.FindAsync(id);
-            if (menu == null)
+            try
             {
-                return NotFound();
+                var menu = await _context.Menus
+                .FirstOrDefaultAsync(m => m.MenuName == menuName);
+
+                if (menu == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Menus.Remove(menu);
+                await _context.SaveChangesAsync();
+
+                var menuDto = new MenuDto
+                {
+                    MenuId = menu.MenuId,
+                    MenuName = menu.MenuName
+                };
+
+                return Ok(menuDto);
             }
-
-            _context.Menu.Remove(menu);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
 
         private bool MenuExists(int id)
         {
-            return _context.Menu.Any(e => e.MenuId == id);
+            return _context.Menus.Any(e => e.MenuId == id);
         }
     }
 }

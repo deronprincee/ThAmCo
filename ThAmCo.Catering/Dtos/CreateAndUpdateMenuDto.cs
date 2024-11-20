@@ -1,8 +1,7 @@
 ﻿namespace ThAmCo.Catering.Dtos
 {
-    public class MenuDto
+    public class CreateAndUpdateMenuDto
     {
-        public int MenuId { get; set; }
         public string MenuName { get; set; }
     }
 }
