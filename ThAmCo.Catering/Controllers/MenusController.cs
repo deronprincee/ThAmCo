@@ -25,7 +25,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MenuDto>>> GetMenu()
         {
-            var menu = await _context.Menus
+            var menu = await _context.Menu
                 .Select(m => new MenuDto
                 { 
                     MenuId = m.MenuId,
@@ -44,7 +44,7 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet("by-menuName")]
         public async Task<ActionResult<MenuDto>> GetMenu(string menuName)
         {
-            var menu = await _context.Menus
+            var menu = await _context.Menu
                 .Where(m => m.MenuName == menuName)
                 .Select(m => new MenuDto
                 {
@@ -66,8 +66,9 @@ namespace ThAmCo.Catering.Controllers
         [HttpPut("by-menuName")]
         public async Task<IActionResult> PutMenu(string menuName, CreateAndUpdateMenuDto updateMenuDto)
         {
-            var menu = await _context.Menus
+            var menu = await _context.Menu
                 .FirstOrDefaultAsync(m => m.MenuName == menuName);
+
             if (menu == null)
             {
                 return NotFound();
@@ -108,7 +109,7 @@ namespace ThAmCo.Catering.Controllers
 
             try
             {
-                _context.Menus.Add(menu);
+                _context.Menu.Add(menu);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -131,7 +132,7 @@ namespace ThAmCo.Catering.Controllers
         {
             try
             {
-                var menu = await _context.Menus
+                var menu = await _context.Menu
                 .FirstOrDefaultAsync(m => m.MenuName == menuName);
 
                 if (menu == null)
@@ -139,7 +140,7 @@ namespace ThAmCo.Catering.Controllers
                     return NotFound();
                 }
 
-                _context.Menus.Remove(menu);
+                _context.Menu.Remove(menu);
                 await _context.SaveChangesAsync();
 
                 var menuDto = new MenuDto
@@ -158,7 +159,7 @@ namespace ThAmCo.Catering.Controllers
 
         private bool MenuExists(int id)
         {
-            return _context.Menus.Any(e => e.MenuId == id);
+            return _context.Menu.Any(e => e.MenuId == id);
         }
     }
 }

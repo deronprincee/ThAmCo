@@ -24,12 +24,18 @@ namespace ThAmCo.Catering.Controllers
         // PUT: api/FoodBookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFoodBooking(int id, FoodBooking foodBooking)
+        public async Task<IActionResult> BookFoodBooking(int clientRefId, FoodBooking updateFoodBookingDto)
         {
-            if (id != foodBooking.FoodBookingId)
+            var foodBooking = await _context.FoodBookings
+            .FirstOrDefaultAsync(fb => fb.ClientReferenceId == clientRefId);
+
+            if (foodBooking == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+
+            foodBooking.ClientReferenceId = updateFoodBookingDto.ClientReferenceId;
+            foodBooking.NumberOfGuests = updateFoodBookingDto.NumberOfGuests;
 
             _context.Entry(foodBooking).State = EntityState.Modified;
 
@@ -39,7 +45,7 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FoodBookingExists(id))
+                if (!FoodBookingExists(foodBooking.FoodBookingId))
                 {
                     return NotFound();
                 }
@@ -64,7 +70,6 @@ namespace ThAmCo.Catering.Controllers
 
             var foodBooking = new FoodBooking
             {
-                ClientReferenceId = foodBookingDto.ClientReferenceId,
                 NumberOfGuests = foodBookingDto.NumberOfGuests,
             };
 
