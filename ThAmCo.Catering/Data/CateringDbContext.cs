@@ -29,24 +29,24 @@ namespace ThAmCo.Catering.Data
             base.OnModelCreating(builder);
             // Composite (Compound) Key
             builder.Entity<MenuFoodItem>()
-            .HasKey(ts => new { ts.MenuId, ts.FoodItemId });
+            .HasKey(mf => new { mf.MenuId, mf.FoodItemId });
 
             builder.Entity<Menu>()
-            .HasMany(c => c.MenuFoodItem)
-            .WithOne(tr => tr.Menu)
-            .HasForeignKey(tr => tr.MenuId)
+            .HasMany(mf => mf.MenuFoodItem)
+            .WithOne(m => m.Menu)
+            .HasForeignKey(m => m.MenuId)
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Menu>()
-            .HasMany(c => c.FoodBooking)
-            .WithOne(tr => tr.Menu)
-            .HasForeignKey(tr => tr.MenuId)
+            .HasMany(fb => fb.FoodBooking)
+            .WithOne(m => m.Menu)
+            .HasForeignKey(m => m.MenuId)
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<FoodItem>()
-            .HasMany(c => c.MenuFoodItem)
-            .WithOne(tr => tr.FoodItem)
-            .HasForeignKey(tr => tr.FoodItemId)
+            .HasMany(mf => mf.MenuFoodItem)
+            .WithOne(fi => fi.FoodItem)
+            .HasForeignKey(fi => fi.FoodItemId)
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Menu> ().HasData(

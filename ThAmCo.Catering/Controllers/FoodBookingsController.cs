@@ -21,21 +21,64 @@ namespace ThAmCo.Catering.Controllers
             _context = context;
         }
 
-        // PUT: api/FoodBookings/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> BookFoodBooking(int clientRefId, FoodBooking updateFoodBookingDto)
+        // GET: api/FoodBookings
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FoodBookingDto>>> GetFoodBookings()
         {
             var foodBooking = await _context.FoodBookings
-            .FirstOrDefaultAsync(fb => fb.ClientReferenceId == clientRefId);
+                .Select(fb => new FoodBookingDto
+                {
+                    FoodBookingId = fb.FoodBookingId,
+                    ClientReferenceId = fb.ClientReferenceId,
+                    NumberOfGuests = fb.NumberOfGuests,
+                    MenuId = fb.MenuId
+
+                })
+                .ToListAsync();
+            if (foodBooking == null)
+            {
+                return NotFound();
+            }
+            return Ok(foodBooking);
+        }
+
+        // GET: api/FoodBookings/5
+        [HttpGet("by-foodBookingId")]
+        public async Task<ActionResult<FoodItemDto>> GetFoodItem(int foodBookingId)
+        {
+            var foodBooking = await _context.FoodBookings
+                .Where(fb => fb.ClientReferenceId == foodBookingId)
+                .Select(fb => new FoodBookingDto
+                {
+                    FoodBookingId = fb.FoodBookingId,
+                    ClientReferenceId = fb.ClientReferenceId,
+                    NumberOfGuests = fb.NumberOfGuests,
+                    MenuId = fb.MenuId
+
+                })
+                .ToListAsync();
+            if (foodBooking == null)
+            {
+                return NotFound();
+            }
+            return Ok(foodBooking);
+        } 
+        
+        // PUT: api/FoodBookings/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("by-foodBookingId")]
+        public async Task<IActionResult> BookFoodBooking(int foodBookingId, UpdateFoodBookingDto updateFoodBookingDto)
+        {
+            var foodBooking = await _context.FoodBookings
+            .FirstOrDefaultAsync(fb => fb.FoodBookingId == foodBookingId);
 
             if (foodBooking == null)
             {
                 return NotFound();
             }
 
-            foodBooking.ClientReferenceId = updateFoodBookingDto.ClientReferenceId;
             foodBooking.NumberOfGuests = updateFoodBookingDto.NumberOfGuests;
+            foodBooking.MenuId = updateFoodBookingDto.MenuId;
 
             _context.Entry(foodBooking).State = EntityState.Modified;
 
@@ -61,7 +104,7 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/FoodBookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FoodBooking>> PostFoodBooking(FoodBookingDto foodBookingDto)
+        public async Task<ActionResult<FoodBookingDto>> PostFoodBooking(FoodBookingDto foodBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -71,6 +114,7 @@ namespace ThAmCo.Catering.Controllers
             var foodBooking = new FoodBooking
             {
                 NumberOfGuests = foodBookingDto.NumberOfGuests,
+                MenuId = foodBookingDto.MenuId
             };
 
             try
@@ -80,27 +124,51 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception (you can use a logging framework like Serilog, NLog, etc.)
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
+
+            var foodBookingCreateDto = new FoodBookingDto
+            {
+                FoodBookingId = foodBooking.FoodBookingId,
+                ClientReferenceId = foodBooking.ClientReferenceId,
+                NumberOfGuests = foodBooking.NumberOfGuests,
+                MenuId = foodBooking.MenuId
+            };
 
             return CreatedAtAction("GetFoodBooking", new { id = foodBooking.FoodBookingId }, foodBooking);
         }
 
         // DELETE: api/FoodBookings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFoodBooking(int id)
+        [HttpDelete("by-foodBookingId")]
+        public async Task<IActionResult> DeleteFoodBooking(int foodBookingId)
         {
-            var foodBooking = await _context.FoodBookings.FindAsync(id);
-            if (foodBooking == null)
+            try
             {
-                return NotFound();
+                var foodBooking = await _context.FoodBookings
+                .FirstOrDefaultAsync(fb => fb.FoodBookingId == foodBookingId);
+
+                if (foodBooking == null)
+                {
+                    return NotFound();
+                }
+
+                _context.FoodBookings.Remove(foodBooking);
+                await _context.SaveChangesAsync();
+
+                var foodItemDto = new FoodBookingDto
+                {
+                    FoodBookingId = foodBooking.FoodBookingId,
+                    ClientReferenceId = foodBooking.ClientReferenceId,
+                    NumberOfGuests = foodBooking.NumberOfGuests,
+                    MenuId = foodBooking.MenuId
+                };
+
+                return Ok(foodItemDto);
             }
-
-            _context.FoodBookings.Remove(foodBooking);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
 
         private bool FoodBookingExists(int id)
