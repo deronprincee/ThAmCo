@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Catering.Data;
+using ThAmCo.Catering.Dtos;
 
 namespace ThAmCo.Catering.Controllers
 {
@@ -22,34 +23,56 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/MenuFoodItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuFoodItem>>> GetMenuFoodItem()
+        public async Task<ActionResult<IEnumerable<MenuFoodItemDto>>> GetMenuFoodItem()
         {
-            return await _context.MenuFoodItems.ToListAsync();
+            var menuFoodItem = await _context.MenuFoodItems
+                .Select(mf => new MenuFoodItemDto
+                {
+                    FoodItemId = mf.FoodItemId,
+                    MenuId = mf.MenuId,
+                })
+                .ToListAsync();
+            if (menuFoodItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(menuFoodItem);
         }
 
         // GET: api/MenuFoodItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MenuFoodItem>> GetMenuFoodItem(int id)
+        [HttpGet("by-foodItemId")]
+        public async Task<ActionResult<MenuFoodItemDto>> GetMenuFoodItem(int foodItemId)
         {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
+            var menuFoodItem = await _context.MenuFoodItems
+                .Where(mf => mf.FoodItemId == foodItemId)
+                .Select(mf => new MenuFoodItemDto
+                {
+                    FoodItemId = mf.FoodItemId,
+                    MenuId = mf.MenuId
+                })
+                .ToListAsync();
+            if (menuFoodItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(menuFoodItem);
+        }
+
+        // PUT: api/MenuFoodItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("by-foodItemId")]
+        public async Task<IActionResult> PutMenuFoodItem(int foodItemId, MenuFoodItemDto menuFoodItemDto)
+        {
+            var menuFoodItem = await _context.MenuFoodItems
+            .FirstOrDefaultAsync(mf => mf.FoodItemId == foodItemId);
 
             if (menuFoodItem == null)
             {
                 return NotFound();
             }
 
-            return menuFoodItem;
-        }
-
-        // PUT: api/MenuFoodItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenuFoodItem(int id, MenuFoodItem menuFoodItem)
-        {
-            if (id != menuFoodItem.MenuId)
-            {
-                return BadRequest();
-            }
+            menuFoodItemDto.FoodItemId = menuFoodItemDto.FoodItemId;
+            menuFoodItemDto.MenuId = menuFoodItemDto.MenuId;
 
             _context.Entry(menuFoodItem).State = EntityState.Modified;
 
@@ -59,7 +82,7 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MenuFoodItemExists(id))
+                if (!MenuFoodItemExists(menuFoodItem.FoodItemId))
                 {
                     return NotFound();
                 }
@@ -75,42 +98,68 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/MenuFoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItem menuFoodItem)
+        public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItemDto menuFoodItemDto)
         {
-            _context.MenuFoodItems.Add(menuFoodItem);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (MenuFoodItemExists(menuFoodItem.MenuId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.MenuId }, menuFoodItem);
+            var menuFoodItem = new MenuFoodItem
+            {
+                FoodItemId = menuFoodItemDto.FoodItemId,
+                MenuId = menuFoodItemDto.MenuId,
+            };
+
+            try
+            {
+                _context.MenuFoodItems.Add(menuFoodItem);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+
+            var menuFoodItemCreateDto = new MenuFoodItemDto
+            {
+                FoodItemId = menuFoodItem.FoodItemId,
+                MenuId = menuFoodItem.MenuId
+            };
+
+            return CreatedAtAction("GetFoodBooking", new { id = menuFoodItemCreateDto.FoodItemId }, menuFoodItemCreateDto);
         }
 
         // DELETE: api/MenuFoodItems/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMenuFoodItem(int id)
+        [HttpDelete("by-foodItemId")]
+        public async Task<IActionResult> DeleteMenuFoodItem(int foodItemId)
         {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
-            if (menuFoodItem == null)
+            try
             {
-                return NotFound();
+                var menuFoodItem = await _context.MenuFoodItems
+                .FirstOrDefaultAsync(fb => fb.FoodItemId == foodItemId);
+
+                if (menuFoodItem == null)
+                {
+                    return NotFound();
+                }
+
+                _context.MenuFoodItems.Remove(menuFoodItem);
+                await _context.SaveChangesAsync();
+
+                var menuFoodItemRemoveDto = new MenuFoodItemDto
+                {
+                    FoodItemId = menuFoodItem.FoodItemId,
+                    MenuId = menuFoodItem.MenuId
+                };
+
+                return Ok(menuFoodItemRemoveDto);
             }
-
-            _context.MenuFoodItems.Remove(menuFoodItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
 
         private bool MenuFoodItemExists(int id)

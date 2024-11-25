@@ -150,14 +150,14 @@ namespace ThAmCo.Catering.Controllers
                 _context.FoodItems.Remove(foodItem);
                 await _context.SaveChangesAsync();
 
-                var foodItemDto = new FoodItemDto
+                var foodItemRemoveDto = new FoodItemDto
                 {
                     FoodItemId = foodItem.FoodItemId,
                     Description = foodItem.Description,
                     UnitPrice = foodItem.UnitPrice
                 };
 
-                return Ok(foodItemDto);
+                return Ok(foodItemRemoveDto);
             }
             catch (Exception ex)
             {

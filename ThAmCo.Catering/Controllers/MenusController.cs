@@ -143,13 +143,13 @@ namespace ThAmCo.Catering.Controllers
                 _context.Menu.Remove(menu);
                 await _context.SaveChangesAsync();
 
-                var menuDto = new MenuDto
+                var menuRemoveDto = new MenuDto
                 {
                     MenuId = menu.MenuId,
                     MenuName = menu.MenuName
                 };
 
-                return Ok(menuDto);
+                return Ok(menuRemoveDto);
             }
             catch (Exception ex)
             {

@@ -44,10 +44,10 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodBookings/5
         [HttpGet("by-foodBookingId")]
-        public async Task<ActionResult<FoodItemDto>> GetFoodItem(int foodBookingId)
+        public async Task<ActionResult<FoodBookingDto>> GetBookingItem(int foodBookingId)
         {
             var foodBooking = await _context.FoodBookings
-                .Where(fb => fb.ClientReferenceId == foodBookingId)
+                .Where(fb => fb.FoodBookingId == foodBookingId)
                 .Select(fb => new FoodBookingDto
                 {
                     FoodBookingId = fb.FoodBookingId,
@@ -121,6 +121,7 @@ namespace ThAmCo.Catering.Controllers
             {
                 _context.FoodBookings.Add(foodBooking);
                 await _context.SaveChangesAsync();
+
             }
             catch (Exception ex)
             {
@@ -135,7 +136,7 @@ namespace ThAmCo.Catering.Controllers
                 MenuId = foodBooking.MenuId
             };
 
-            return CreatedAtAction("GetFoodBooking", new { id = foodBooking.FoodBookingId }, foodBooking);
+            return CreatedAtAction("GetFoodBooking", new { id = foodBookingCreateDto.FoodBookingId }, foodBookingCreateDto);
         }
 
         // DELETE: api/FoodBookings/5
@@ -155,7 +156,7 @@ namespace ThAmCo.Catering.Controllers
                 _context.FoodBookings.Remove(foodBooking);
                 await _context.SaveChangesAsync();
 
-                var foodItemDto = new FoodBookingDto
+                var foodItemRemoveDto = new FoodBookingDto
                 {
                     FoodBookingId = foodBooking.FoodBookingId,
                     ClientReferenceId = foodBooking.ClientReferenceId,
@@ -163,7 +164,7 @@ namespace ThAmCo.Catering.Controllers
                     MenuId = foodBooking.MenuId
                 };
 
-                return Ok(foodItemDto);
+                return Ok(foodItemRemoveDto);
             }
             catch (Exception ex)
             {
