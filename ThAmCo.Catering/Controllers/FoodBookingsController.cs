@@ -23,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodBookings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FoodBookingDto>>> GetFoodBookings()
+        public async Task<ActionResult<IEnumerable<FoodBookingDto>>> GetFoodBooking()
         {
             var foodBooking = await _context.FoodBookings
                 .Select(fb => new FoodBookingDto
@@ -67,7 +67,7 @@ namespace ThAmCo.Catering.Controllers
         // PUT: api/FoodBookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("by-foodBookingId")]
-        public async Task<IActionResult> BookFoodBooking(int foodBookingId, CreateAndUpdateFoodBookingDto updateFoodBookingDto)
+        public async Task<IActionResult> PutFoodBooking(int foodBookingId, CreateAndUpdateFoodBookingDto updateFoodBookingDto)
         {
             var foodBooking = await _context.FoodBookings
             .FirstOrDefaultAsync(fb => fb.FoodBookingId == foodBookingId);
@@ -101,6 +101,7 @@ namespace ThAmCo.Catering.Controllers
             return NoContent();
         }
 
+
         // POST: api/FoodBookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -111,8 +112,17 @@ namespace ThAmCo.Catering.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Method to generate a random ClientReferenceId
+            static int GenerateRandomClientReferenceId()
+            {
+                Random rnd = new Random();
+                int num = rnd.Next(100,500);
+                return rnd.Next(num);
+            }
+
             var foodBooking = new FoodBooking
             {
+                ClientReferenceId = GenerateRandomClientReferenceId(),
                 NumberOfGuests = createFoodBookingDto.NumberOfGuests,
                 MenuId = createFoodBookingDto.MenuId
             };
@@ -138,6 +148,7 @@ namespace ThAmCo.Catering.Controllers
 
             return CreatedAtAction("GetFoodBooking", new { id = foodBookingCreateDto.FoodBookingId }, foodBookingCreateDto);
         }
+
 
         // DELETE: api/FoodBookings/5
         [HttpDelete("by-foodBookingId")]
