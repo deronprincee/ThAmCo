@@ -123,7 +123,7 @@ namespace ThAmCo.Catering.Controllers
                 MenuName = menu.MenuName
             };
 
-            return CreatedAtAction("GetMenu", new { id = menu.MenuId }, menu);
+            return CreatedAtAction("GetMenu", new { id = menuCreatedDto.MenuId }, menuCreatedDto);
         }
 
         // DELETE: api/Menus/5

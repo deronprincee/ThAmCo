@@ -67,7 +67,7 @@ namespace ThAmCo.Catering.Controllers
         // PUT: api/FoodBookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("by-foodBookingId")]
-        public async Task<IActionResult> BookFoodBooking(int foodBookingId, UpdateFoodBookingDto updateFoodBookingDto)
+        public async Task<IActionResult> BookFoodBooking(int foodBookingId, CreateAndUpdateFoodBookingDto updateFoodBookingDto)
         {
             var foodBooking = await _context.FoodBookings
             .FirstOrDefaultAsync(fb => fb.FoodBookingId == foodBookingId);
@@ -104,7 +104,7 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/FoodBookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FoodBookingDto>> PostFoodBooking(FoodBookingDto foodBookingDto)
+        public async Task<ActionResult<FoodBookingDto>> PostFoodBooking(CreateAndUpdateFoodBookingDto createFoodBookingDto)
         {
             if (!ModelState.IsValid)
             {
@@ -113,8 +113,8 @@ namespace ThAmCo.Catering.Controllers
 
             var foodBooking = new FoodBooking
             {
-                NumberOfGuests = foodBookingDto.NumberOfGuests,
-                MenuId = foodBookingDto.MenuId
+                NumberOfGuests = createFoodBookingDto.NumberOfGuests,
+                MenuId = createFoodBookingDto.MenuId
             };
 
             try

@@ -98,7 +98,7 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/MenuFoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItemDto menuFoodItemDto)
+        public async Task<ActionResult<MenuFoodItemDto>> PostMenuFoodItem(MenuFoodItemDto menuFoodItemDto)
         {
             if (!ModelState.IsValid)
             {

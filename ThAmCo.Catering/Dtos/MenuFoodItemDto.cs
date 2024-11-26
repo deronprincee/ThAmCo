@@ -2,7 +2,8 @@
 {
     public class MenuFoodItemDto
     {
-        public int MenuId { get; set; }
         public int FoodItemId { get; set; }
+        public int MenuId { get; set; }
+
     }
 }
