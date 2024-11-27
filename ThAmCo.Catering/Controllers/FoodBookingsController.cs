@@ -43,7 +43,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // GET: api/FoodBookings/5
-        [HttpGet("by-foodBookingId")]
+        [HttpGet("{foodBookingId}")]
         public async Task<ActionResult<FoodBookingDto>> GetFoodBooking(int foodBookingId)
         {
             var foodBooking = await _context.FoodBookings
@@ -65,7 +65,7 @@ namespace ThAmCo.Catering.Controllers
         
         // PUT: api/FoodBookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("by-foodBookingId")]
+        [HttpPut("{foodBookingId}")]
         public async Task<IActionResult> PutFoodBooking(int foodBookingId, CreateAndUpdateFoodBookingDto updateFoodBookingDto)
         {
             var foodBooking = await _context.FoodBookings
@@ -150,7 +150,7 @@ namespace ThAmCo.Catering.Controllers
 
 
         // DELETE: api/FoodBookings/5
-        [HttpDelete("by-foodBookingId")]
+        [HttpDelete("{foodBookingId}")]
         public async Task<IActionResult> DeleteFoodBooking(int foodBookingId)
         {
             try

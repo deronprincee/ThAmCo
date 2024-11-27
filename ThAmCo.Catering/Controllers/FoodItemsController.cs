@@ -41,7 +41,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // GET: api/FoodItems/5
-        [HttpGet("by-description")]
+        [HttpGet("{description}")]
         public async Task<ActionResult<FoodItemDto>> GetFoodItem(string description)
         {
             var foodItem = await _context.FoodItems
@@ -62,7 +62,7 @@ namespace ThAmCo.Catering.Controllers
 
         // PUT: api/FoodItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("by-description")]
+        [HttpPut("{description}")]
         public async Task<IActionResult> PutFoodItem(string description, CreateAndUpdateFoodItemDto updateFoodItemDto)
         {
             var foodItem = await _context.FoodItems
@@ -134,7 +134,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // DELETE: api/FoodItems/5
-        [HttpDelete("by-description")]
+        [HttpDelete("{description}")]
         public async Task<IActionResult> DeleteFoodItem(string description)
         {
             try

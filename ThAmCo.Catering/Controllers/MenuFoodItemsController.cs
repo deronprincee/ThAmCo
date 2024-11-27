@@ -40,7 +40,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // GET: api/MenuFoodItems/5
-        [HttpGet("by-foodItemId")]
+        [HttpGet("{foodItemId}/{menuId}")]
         public async Task<ActionResult<MenuFoodItemDto>> GetMenuFoodItem(int foodItemId, int menuId)
         {
             var menuFoodItem = await _context.MenuFoodItems
@@ -126,7 +126,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // DELETE: api/MenuFoodItems/5
-        [HttpDelete]
+        [HttpDelete("{foodItemId}/{menuId}")]
         public async Task<IActionResult> DeleteMenuFoodItem(int foodItemId, int menuId)
         {
             try

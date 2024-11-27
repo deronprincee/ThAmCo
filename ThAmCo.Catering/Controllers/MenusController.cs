@@ -41,7 +41,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // GET: api/Menus/5
-        [HttpGet("by-menuName")]
+        [HttpGet("{menuName}")]
         public async Task<ActionResult<MenuDto>> GetMenu(string menuName)
         {
             var menu = await _context.Menu
@@ -63,7 +63,7 @@ namespace ThAmCo.Catering.Controllers
 
         // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("by-menuName")]
+        [HttpPut("{menuName}")]
         public async Task<IActionResult> PutMenu(string menuName, CreateAndUpdateMenuDto updateMenuDto)
         {
             var menu = await _context.Menu
@@ -127,7 +127,7 @@ namespace ThAmCo.Catering.Controllers
         }
 
         // DELETE: api/Menus/5
-        [HttpDelete("by-menuName")]
+        [HttpDelete("{S}")]
         public async Task<IActionResult> DeleteMenu(string menuName)
         {
             try
