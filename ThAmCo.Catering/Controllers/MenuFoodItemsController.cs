@@ -23,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/MenuFoodItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuFoodItemDto>>> GetMenuFoodItem()
+        public async Task<ActionResult<IEnumerable<MenuFoodItemDto>>> GetMenuFoodItems()
         {
             var menuFoodItem = await _context.MenuFoodItems
                 .Select(mf => new MenuFoodItemDto
@@ -41,10 +41,10 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/MenuFoodItems/5
         [HttpGet("by-foodItemId")]
-        public async Task<ActionResult<MenuFoodItemDto>> GetMenuFoodItem(int foodItemId)
+        public async Task<ActionResult<MenuFoodItemDto>> GetMenuFoodItem(int foodItemId, int menuId)
         {
             var menuFoodItem = await _context.MenuFoodItems
-                .Where(mf => mf.FoodItemId == foodItemId)
+                .Where(mf => mf.FoodItemId == foodItemId && mf.MenuId == menuId)
                 .Select(mf => new MenuFoodItemDto
                 {
                     FoodItemId = mf.FoodItemId,
@@ -60,19 +60,13 @@ namespace ThAmCo.Catering.Controllers
 
         // PUT: api/MenuFoodItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("by-foodItemId")]
-        public async Task<IActionResult> PutMenuFoodItem(int foodItemId, MenuFoodItemDto menuFoodItemDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMenuFoodItem(int id, MenuFoodItem menuFoodItem)
         {
-            var menuFoodItem = await _context.MenuFoodItems
-            .FirstOrDefaultAsync(mf => mf.FoodItemId == foodItemId);
-
-            if (menuFoodItem == null)
+            if (id != menuFoodItem.MenuId)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            menuFoodItemDto.FoodItemId = menuFoodItemDto.FoodItemId;
-            menuFoodItemDto.MenuId = menuFoodItemDto.MenuId;
 
             _context.Entry(menuFoodItem).State = EntityState.Modified;
 
@@ -82,7 +76,7 @@ namespace ThAmCo.Catering.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MenuFoodItemExists(menuFoodItem.FoodItemId))
+                if (!MenuFoodItemExists(id))
                 {
                     return NotFound();
                 }
@@ -128,17 +122,17 @@ namespace ThAmCo.Catering.Controllers
                 MenuId = menuFoodItem.MenuId
             };
 
-            return CreatedAtAction("GetFoodBooking", new { id = menuFoodItemCreateDto.FoodItemId }, menuFoodItemCreateDto);
+            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItemCreateDto.FoodItemId }, menuFoodItemCreateDto);
         }
 
         // DELETE: api/MenuFoodItems/5
-        [HttpDelete("by-foodItemId")]
-        public async Task<IActionResult> DeleteMenuFoodItem(int foodItemId)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMenuFoodItem(int foodItemId, int menuId)
         {
             try
             {
                 var menuFoodItem = await _context.MenuFoodItems
-                .FirstOrDefaultAsync(fb => fb.FoodItemId == foodItemId);
+                .FirstOrDefaultAsync(fb => fb.FoodItemId == foodItemId && fb.MenuId == menuId);
 
                 if (menuFoodItem == null)
                 {

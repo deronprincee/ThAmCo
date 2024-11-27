@@ -23,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/Menus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuDto>>> GetMenu()
+        public async Task<ActionResult<IEnumerable<MenuDto>>> GetMenus()
         {
             var menu = await _context.Menu
                 .Select(m => new MenuDto

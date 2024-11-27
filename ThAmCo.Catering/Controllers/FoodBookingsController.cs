@@ -23,7 +23,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodBookings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FoodBookingDto>>> GetFoodBooking()
+        public async Task<ActionResult<IEnumerable<FoodBookingDto>>> GetFoodBookings()
         {
             var foodBooking = await _context.FoodBookings
                 .Select(fb => new FoodBookingDto
@@ -44,7 +44,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodBookings/5
         [HttpGet("by-foodBookingId")]
-        public async Task<ActionResult<FoodBookingDto>> GetBookingItem(int foodBookingId)
+        public async Task<ActionResult<FoodBookingDto>> GetFoodBooking(int foodBookingId)
         {
             var foodBooking = await _context.FoodBookings
                 .Where(fb => fb.FoodBookingId == foodBookingId)
@@ -54,7 +54,6 @@ namespace ThAmCo.Catering.Controllers
                     ClientReferenceId = fb.ClientReferenceId,
                     NumberOfGuests = fb.NumberOfGuests,
                     MenuId = fb.MenuId
-
                 })
                 .ToListAsync();
             if (foodBooking == null)
