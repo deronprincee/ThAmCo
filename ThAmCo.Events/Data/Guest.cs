@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ThAmCo.Events.Data;
 
 namespace ThAmCo.Events.Data
 {

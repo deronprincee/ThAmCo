@@ -13,9 +13,5 @@ namespace ThAmCo.Catering.Data
         public int MenuId { get; set; } //MenuId is foreign key
 
         public Menu? Menu { get; set; } // initialise one-to-many relationship with Menu class
-
-
-
-
     }
 }

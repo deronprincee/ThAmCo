@@ -1,0 +1,52 @@
+﻿@page
+@model ThAmCo.Events.Pages.GuestBookings.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<!-- Added this line to display the total count of guests using Copilot-->
+<p>Total Guests: <strong>@Model.GuestCount</strong></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestBooking[0].Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestBooking[0].Guest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestBooking[0].IsAttending)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.GuestBooking) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guest.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAttending)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.GuestBookingId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.GuestBookingId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.GuestBookingId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+﻿@page
+@model ThAmCo.Events.Pages.GuestList.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Guest</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>GuestID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Guest.GuestId)</td>
+                <td>@Html.DisplayFor(model => model.Guest.Name)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Added to display the list of all the events being attended by each guest using Copilot-->
+<div>
+    <h4>Events Attending</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event Title</th>
+                <th>Event Date</th>
+                <th>Event Type</th>
+                <th>Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var guestEvent in Model.Guest.GuestBookings)
+            {
+                <tr>
+                    <td>@guestEvent.Event.Title</td>
+                    <td>@guestEvent.Event.Date.ToShortDateString()</td>
+                    <td>@guestEvent.Event.EventType</td>
+                    <td>@guestEvent.IsAttending</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Guest.GuestId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
