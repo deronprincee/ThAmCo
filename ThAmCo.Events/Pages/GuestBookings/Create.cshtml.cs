@@ -20,7 +20,7 @@ namespace ThAmCo.Events.Pages.GuestBookings
 
         public IActionResult OnGet()
         {
-        ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventType");
+        ViewData["EventId"] = new SelectList(_context.Events, "EventId", "Title");
         ViewData["GuestId"] = new SelectList(_context.Guests, "GuestId", "Name");
             return Page();
         }

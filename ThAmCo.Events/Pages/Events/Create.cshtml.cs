@@ -20,7 +20,6 @@ namespace ThAmCo.Events.Pages.Events
 
         public IActionResult OnGet()
         {
-            ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventType");
             return Page();
         }
 

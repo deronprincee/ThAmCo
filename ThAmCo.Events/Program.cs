@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ThAmCo.Events.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
