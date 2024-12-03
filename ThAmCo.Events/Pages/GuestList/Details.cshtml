@@ -5,28 +5,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Guest</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>GuestID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Html.DisplayFor(model => model.Guest.GuestId)</td>
-                <td>@Html.DisplayFor(model => model.Guest.Name)</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<h1>@Html.DisplayFor(model => model.Guest.Name)</h1>
 
 <!-- Added to display the list of all the events being attended by each guest using Copilot-->
 <div>
+    <br/>
     <h4>Events Attending</h4>
     <table class="table">
         <thead>

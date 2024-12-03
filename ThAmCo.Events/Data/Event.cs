@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using ThAmCo.Events.Data;
 
 namespace ThAmCo.Events.Data
@@ -22,7 +23,9 @@ namespace ThAmCo.Events.Data
         [Required]
         public string? EventType { get; set; }
 
+        [ValidateNever]
         public List<GuestBooking> GuestBookings { get; set; }
+        [ValidateNever]
         public List<Staffing> Staffings { get; set; }
     }
 }

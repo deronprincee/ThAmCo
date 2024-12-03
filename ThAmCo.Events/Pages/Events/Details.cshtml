@@ -1,0 +1,39 @@
+﻿@page
+@model ThAmCo.Events.Pages.Events.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Html.DisplayFor(model => model.Event.Title)</h1>
+
+<!-- Added this line to display the total count of guests using Copilot-->
+<p>Total Guests: <strong>@Model.GuestCount</strong></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Guest</th>
+            <th>IsAttending</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Event.GuestBookings) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Guest.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAttending)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@Model.Event.EventId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 
+
+<p><a asp-page="./Index">Back to List</a></p>
+
