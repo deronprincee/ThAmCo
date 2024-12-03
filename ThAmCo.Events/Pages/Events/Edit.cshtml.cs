@@ -22,19 +22,20 @@ namespace ThAmCo.Events.Pages.Events
         [BindProperty]
         public Event Event { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var events =  await _context.Events.FirstOrDefaultAsync(m => m.EventId == id);
+            var events = await _context.Events.FirstOrDefaultAsync(m => m.EventId == id);
             if (events == null)
             {
                 return NotFound();
             }
             Event = events;
+
             return Page();
         }
 

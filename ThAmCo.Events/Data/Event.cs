@@ -17,14 +17,13 @@ namespace ThAmCo.Events.Data
             EventType = eventType;
         }
         public int EventId { get; set; }
-        [Required]
-        public string Title { get; set; } = string.Empty;
+        public  string Title { get; set; }
         public DateTime Date { get; set; }
-        [Required]
-        public string? EventType { get; set; }
+        public string EventType { get; set; }
 
         [ValidateNever]
         public List<GuestBooking> GuestBookings { get; set; }
+
         [ValidateNever]
         public List<Staffing> Staffings { get; set; }
     }

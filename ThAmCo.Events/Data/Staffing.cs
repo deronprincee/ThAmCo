@@ -18,9 +18,11 @@ namespace ThAmCo.Events.Data
         public int StaffingId { get; set; }
 
         public int StaffId { get; set; }
+        [ValidateNever]
         public Staff Staff { get; set; }
 
         public int EventId { get; set; }
+        [ValidateNever]
         public Event Event { get; set; }
 
         public string Role { get; set; }

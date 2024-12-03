@@ -27,7 +27,6 @@ namespace ThAmCo.Events.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -36,7 +35,7 @@ namespace ThAmCo.Events.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
 
                     b.HasData(
                         new
@@ -88,7 +87,7 @@ namespace ThAmCo.Events.Data.Migrations
 
                     b.HasKey("GuestId");
 
-                    b.ToTable("Guests");
+                    b.ToTable("Guests", (string)null);
 
                     b.HasData(
                         new
@@ -139,7 +138,7 @@ namespace ThAmCo.Events.Data.Migrations
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("GuestBookings");
+                    b.ToTable("GuestBookings", (string)null);
 
                     b.HasData(
                         new
@@ -216,7 +215,7 @@ namespace ThAmCo.Events.Data.Migrations
 
                     b.HasKey("StaffId");
 
-                    b.ToTable("Staff");
+                    b.ToTable("Staff", (string)null);
 
                     b.HasData(
                         new
@@ -273,7 +272,7 @@ namespace ThAmCo.Events.Data.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("Staffings");
+                    b.ToTable("Staffings", (string)null);
 
                     b.HasData(
                         new

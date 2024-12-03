@@ -30,7 +30,6 @@ namespace ThAmCo.Events.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventType")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
