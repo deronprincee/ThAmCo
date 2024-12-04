@@ -9,7 +9,7 @@ namespace ThAmCo.Events.Data
         {
             var folder = Environment.SpecialFolder.MyDocuments;
             var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "events.db");
+            DbPath = Path.Join(path, "Events.db");
         }
 
         public DbSet<Guest> Guests { get; set; }

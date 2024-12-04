@@ -20,6 +20,7 @@ namespace ThAmCo.Events.Data
         public  string Title { get; set; }
         public DateTime Date { get; set; }
         public string EventType { get; set; }
+        public string VenueName { get; set; } = string.Empty;
 
         [ValidateNever]
         public List<GuestBooking> GuestBookings { get; set; }

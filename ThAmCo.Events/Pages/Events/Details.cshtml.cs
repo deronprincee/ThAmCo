@@ -40,3 +40,4 @@ namespace ThAmCo.Events.Pages.Events
         }
     }
 }
+
