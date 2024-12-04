@@ -6,20 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Services;
 
 namespace ThAmCo.Events.Pages.Events
 {
     public class CreateModel : PageModel
     {
         private readonly ThAmCo.Events.Data.EventsContext _context;
+        private readonly VenueService _venueService;
 
-        public CreateModel(ThAmCo.Events.Data.EventsContext context)
+        public List<SelectListItem> VenueItems { get; set; } = [];
+
+        public CreateModel(ThAmCo.Events.Data.EventsContext context, VenueService venueService)
         {
             _context = context;
+            _venueService = venueService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            VenueItems = await _venueService.GetCategorySelectListAsync();
             return Page();
         }
 
@@ -31,6 +37,7 @@ namespace ThAmCo.Events.Pages.Events
         {
             if (!ModelState.IsValid)
             {
+                VenueItems = await _venueService.GetCategorySelectListAsync();
                 return Page();
             }
 

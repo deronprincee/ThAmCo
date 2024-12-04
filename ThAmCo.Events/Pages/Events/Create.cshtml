@@ -30,7 +30,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Event.VenueName" class="control-label"></label>
-                <input asp-for="Event.VenueName" class="form-control" />
+                <select asp-for="Event.VenueName" asp-items="Model.VenueItems" class="form-control">
+                    <option value="">-- Select --</option>
+                </select>
                 <span asp-validation-for="Event.VenueName" class="text-danger"></span>
             </div>
             <div class="form-group">

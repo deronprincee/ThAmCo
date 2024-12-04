@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register the HTTP client and CategoryService for Dependency Injection (DI)
+builder.Services.AddHttpClient<VenueService>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
