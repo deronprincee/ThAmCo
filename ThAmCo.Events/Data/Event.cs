@@ -19,8 +19,7 @@ namespace ThAmCo.Events.Data
         public int EventId { get; set; }
         public  string Title { get; set; }
         public DateTime Date { get; set; }
-        public string? EventType { get; set; } = null;
-        public int Temp {  get; set; }
+        public string EventType { get; set; }
 
         [ValidateNever]
         public List<GuestBooking> GuestBookings { get; set; }
