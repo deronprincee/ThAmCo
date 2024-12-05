@@ -47,7 +47,8 @@ namespace ThAmCo.Events.Pages.Events
                 return Page();
             }
 
-            _context.Attach(Event).State = EntityState.Modified;
+            var events = await _context.Events.FindAsync(Event.EventId);
+            events.Title = Event.Title;
 
             try
             {
@@ -64,6 +65,8 @@ namespace ThAmCo.Events.Pages.Events
                     throw;
                 }
             }
+
+            
 
             return RedirectToPage("./Index");
         }

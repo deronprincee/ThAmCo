@@ -7,7 +7,7 @@ using ThAmCo.Events.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the HTTP client and CategoryService for Dependency Injection (DI)
-builder.Services.AddHttpClient<VenueService>();
+builder.Services.AddHttpClient<AvailabilityService>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
