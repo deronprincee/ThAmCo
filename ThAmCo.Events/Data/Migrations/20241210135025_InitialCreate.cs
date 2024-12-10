@@ -21,7 +21,8 @@ namespace ThAmCo.Events.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EventType = table.Column<string>(type: "TEXT", nullable: false)
+                    EventTypeId = table.Column<string>(type: "TEXT", nullable: false),
+                    VenueCode = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,14 +112,14 @@ namespace ThAmCo.Events.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "EventId", "Date", "EventType", "Title" },
+                columns: new[] { "EventId", "Date", "EventTypeId", "Title", "VenueCode" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Conference", "Tech Conference" },
-                    { 2, new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Festival", "Music Festival" },
-                    { 3, new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Exhibition", "Art Exhibition" },
-                    { 4, new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fair", "Science Fair" },
-                    { 5, new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Workshop", "Literature Workshop" }
+                    { 1, new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Tech Conference", "" },
+                    { 2, new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Music Festival", "" },
+                    { 3, new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Art Exhibition", "" },
+                    { 4, new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Science Fair", "" },
+                    { 5, new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Literature Workshop", "" }
                 });
 
             migrationBuilder.InsertData(

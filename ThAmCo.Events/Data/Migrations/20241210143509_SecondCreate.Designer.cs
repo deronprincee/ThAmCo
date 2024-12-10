@@ -11,8 +11,8 @@ using ThAmCo.Events.Data;
 namespace ThAmCo.Events.Data.Migrations
 {
     [DbContext(typeof(EventsContext))]
-    [Migration("20241127195636_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241210143509_SecondCreate")]
+    partial class SecondCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,10 +29,15 @@ namespace ThAmCo.Events.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EventType")
+                    b.Property<string>("EventTypeId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VenueCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -45,36 +50,41 @@ namespace ThAmCo.Events.Data.Migrations
                         {
                             EventId = 1,
                             Date = new DateTime(2024, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventType = "Conference",
-                            Title = "Tech Conference"
+                            EventTypeId = "",
+                            Title = "Tech Conference",
+                            VenueCode = ""
                         },
                         new
                         {
                             EventId = 2,
                             Date = new DateTime(2024, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventType = "Festival",
-                            Title = "Music Festival"
+                            EventTypeId = "",
+                            Title = "Music Festival",
+                            VenueCode = ""
                         },
                         new
                         {
                             EventId = 3,
                             Date = new DateTime(2024, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventType = "Exhibition",
-                            Title = "Art Exhibition"
+                            EventTypeId = "",
+                            Title = "Art Exhibition",
+                            VenueCode = ""
                         },
                         new
                         {
                             EventId = 4,
                             Date = new DateTime(2024, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventType = "Fair",
-                            Title = "Science Fair"
+                            EventTypeId = "",
+                            Title = "Science Fair",
+                            VenueCode = ""
                         },
                         new
                         {
                             EventId = 5,
                             Date = new DateTime(2024, 8, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventType = "Workshop",
-                            Title = "Literature Workshop"
+                            EventTypeId = "",
+                            Title = "Literature Workshop",
+                            VenueCode = ""
                         });
                 });
 
@@ -208,6 +218,9 @@ namespace ThAmCo.Events.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsFirstAider")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -224,30 +237,35 @@ namespace ThAmCo.Events.Data.Migrations
                         new
                         {
                             StaffId = 1,
+                            IsFirstAider = false,
                             Name = "Michael Brown",
                             Role = "Coordinator"
                         },
                         new
                         {
                             StaffId = 2,
+                            IsFirstAider = false,
                             Name = "Emily Davis",
                             Role = "Assistant"
                         },
                         new
                         {
                             StaffId = 3,
+                            IsFirstAider = false,
                             Name = "Robert Wilson",
                             Role = "Manager"
                         },
                         new
                         {
                             StaffId = 4,
+                            IsFirstAider = false,
                             Name = "Laura Green",
                             Role = "Technician"
                         },
                         new
                         {
                             StaffId = 5,
+                            IsFirstAider = false,
                             Name = "David Black",
                             Role = "Security"
                         });

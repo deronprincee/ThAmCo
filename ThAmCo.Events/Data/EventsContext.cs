@@ -64,11 +64,11 @@ namespace ThAmCo.Events.Data
             );
 
             builder.Entity<Event>().HasData(
-                new Event { EventId = 1, Title = "Tech Conference", Date = new DateTime(2024, 12, 15), EventType = "Conference" },
-                new Event { EventId = 2, Title = "Music Festival", Date = new DateTime(2024, 11, 20), EventType = "Festival" },
-                new Event { EventId = 3, Title = "Art Exhibition", Date = new DateTime(2024, 10, 10), EventType = "Exhibition" },
-                new Event { EventId = 4, Title = "Science Fair", Date = new DateTime(2024, 09, 05), EventType = "Fair" },
-                new Event { EventId = 5, Title = "Literature Workshop", Date = new DateTime(2024, 08, 25), EventType = "Workshop" }
+                new Event { EventId = 1, Title = "Tech Conference", Date = new DateTime(2024, 12, 15) },
+                new Event { EventId = 2, Title = "Music Festival", Date = new DateTime(2024, 11, 20) },
+                new Event { EventId = 3, Title = "Art Exhibition", Date = new DateTime(2024, 10, 10) },
+                new Event { EventId = 4, Title = "Science Fair", Date = new DateTime(2024, 09, 05)},
+                new Event { EventId = 5, Title = "Literature Workshop", Date = new DateTime(2024, 08, 25)}
             );
 
             builder.Entity<GuestBooking>().HasData(

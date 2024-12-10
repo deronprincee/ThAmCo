@@ -12,10 +12,14 @@ namespace ThAmCo.Events.Services
 
         const string CategoryEndPoint = "/Availability";
         private readonly HttpClient _httpClient; 
-                                            
-        public AvailabilityService(HttpClient httpClient)
+        private readonly AvailabilityService _availabilityService;
+
+        public List<SelectListItem> VenueItems { get; set; } = [];
+
+        public AvailabilityService(HttpClient httpClient, AvailabilityService availabilityService)
         {
-            _httpClient = httpClient; 
+            _httpClient = httpClient;
+            _availabilityService = availabilityService;
         }
         JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {

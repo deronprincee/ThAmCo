@@ -9,18 +9,17 @@ namespace ThAmCo.Events.Data
         public Event()
         {
         }
-        public Event(int eventId, string title, DateTime date, string eventType)
+        public Event(int eventId, string title, DateTime date)
         {
             EventId = eventId;
             Title = title;
             Date = date;
-            EventType = eventType;
         }
         public int EventId { get; set; }
         public  string Title { get; set; }
         public DateTime Date { get; set; }
-        public string EventType { get; set; }
-        public string VenueName { get; set; } = string.Empty;
+        public string EventTypeId { get; set; } = string.Empty;
+        public string VenueCode { get; set; } = string.Empty;
 
         [ValidateNever]
         public List<GuestBooking> GuestBookings { get; set; }

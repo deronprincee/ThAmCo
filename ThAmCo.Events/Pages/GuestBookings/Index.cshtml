@@ -29,7 +29,7 @@
 @foreach (var item in Model.GuestBooking) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Event.EventType)
+                @Html.DisplayFor(modelItem => item.Event.EventTypeId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Guest.Name)

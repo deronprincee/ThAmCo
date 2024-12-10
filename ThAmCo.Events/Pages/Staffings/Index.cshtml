@@ -1,0 +1,87 @@
+﻿@page
+@model ThAmCo.Events.Pages.Staffings.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffing[0].Staff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffing[0].Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staffing[0].Role)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Staffing) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.StaffingId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.StaffingId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.StaffingId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<table class ="table">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Staff</th>
+            <th>Warning</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventGroup in Model.Staffing.GroupBy(s => s.Event))
+        {
+            <tr>
+                <td>@eventGroup.Key.Title</td>
+                <td>
+                    @foreach (var staff in eventGroup)
+                    {
+                        <li>
+                            @staff.Staff.Name (@(staff.Staff.Role))
+                        </li>
+                    }
+                </td>
+                <td>
+                    @if (Model.EventFirstAiderWarnings[eventGroup.Key.EventId])
+                    {
+                        <p style="color: red;">Warning: This event does not have a first aider assigned.</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
