@@ -19,10 +19,22 @@ namespace ThAmCo.Events.Pages.Events
         }
 
         public IList<Event> Event { get;set; } = default!;
+        public Dictionary<int, bool> EventFirstAiderWarnings { get; set; } = new();
+
 
         public async Task OnGetAsync()
         {
-            Event = await _context.Events.ToListAsync();
+            Event = await _context.Events
+            .Include(e => e.Staffings)
+                .ThenInclude(s => s.Staff)
+            .ToListAsync();
+
+            // Populate warnings for events without a first aider
+            foreach (var ev in Event)
+            {
+                var hasFirstAider = ev.Staffings.Any(s => s.Staff.IsFirstAider);
+                EventFirstAiderWarnings[ev.EventId] = !hasFirstAider; // True if no first aider
+            }
         }
     }
 }

@@ -19,21 +19,20 @@ namespace ThAmCo.Events.Pages.Staffings
         }
 
         public IList<Staffing> Staffing { get;set; } = default!;
-        public Dictionary<int, bool> EventFirstAiderWarnings { get; set; } = new Dictionary<int, bool>();
+        public bool ShowFirstAiderWarning { get; set; } = false;
+
 
         public async Task OnGetAsync()
         {
             Staffing = await _context.Staffings
-                .Include(s => s.Event)
-                .Include(s => s.Staff).ToListAsync();
+            .Include(s => s.Event)
+            .Include(s => s.Staff)
+            .ToListAsync();
 
-            var eventIds = Staffing.Select(s => s.EventId).Distinct();
-            foreach (var eventId in eventIds)
-            {
-                // Check if the event has a first aider assigned
-                var hasFirstAider = Staffing.Any(s => s.EventId == eventId && s.Staff.IsFirstAider);
-                EventFirstAiderWarnings[eventId] = !hasFirstAider;
-            }
+            ShowFirstAiderWarning = Staffing
+            .GroupBy(s => s.EventId)
+            .Any(group => !group.Any(s => s.Staff.IsFirstAider));
+
         }
 
     }

@@ -22,7 +22,6 @@ namespace ThAmCo.Events.Pages.Staffings
         {
             ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventId");
             ViewData["StaffId"] = new SelectList(_context.Staff, "StaffId", "Name");
-            ViewData["FirstAiders"] = new SelectList(_context.Staff.Where(s => s.IsFirstAider), "StaffId", "Name");
             return Page();
         }
 

@@ -23,32 +23,36 @@
                 @Html.DisplayNameFor(model => model.Event[0].EventTypeId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Event[0].VenueCode)
+                Warnings
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Event) {
+    @foreach (var item in Model.Event)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                    @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EventTypeId)
+                    @Html.DisplayFor(modelItem => item.EventTypeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VenueCode)
+                    @if (Model.EventFirstAiderWarnings[item.EventId])
+                {
+                    <span style="color: red; font-weight: bold;">No first aider assigned.</span>
+                }
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.EventId">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.EventId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.EventId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.EventId">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

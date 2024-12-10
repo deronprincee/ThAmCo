@@ -20,10 +20,10 @@ namespace ThAmCo.Events.Data
 
         public string Role { get; set; }
 
-        public bool IsFirstAider { get; set; }
-
         [ValidateNever]
         public List<Staffing> Staffing { get; set; }
+
+        public bool IsFirstAider { get; set; }
 
     }
 }

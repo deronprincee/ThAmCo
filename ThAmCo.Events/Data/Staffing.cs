@@ -11,7 +11,7 @@ namespace ThAmCo.Events.Data
         }
         public Staffing(int staffingId, int staffId, int eventId)
         {
-            StaffId = staffingId;
+            StaffingId = staffingId;
             StaffId = staffId;
             EventId = eventId;
         }
@@ -26,6 +26,8 @@ namespace ThAmCo.Events.Data
         public Event Event { get; set; }
 
         public string Role { get; set; }
+
+
 
     }
 }

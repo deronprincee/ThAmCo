@@ -50,6 +50,16 @@ namespace ThAmCo.Events.Pages.Events
             var events = await _context.Events.FindAsync(Event.EventId);
             events.Title = Event.Title;
 
+            var hasFirstAider = _context.Staffings
+            .Include(s => s.Staff)
+            .Any(s => s.EventId == events.EventId && s.Staff.IsFirstAider);
+
+            if (!hasFirstAider)
+            {
+                ModelState.AddModelError(string.Empty, "Warning: This event does not have a first aider assigned.");
+                return Page();
+            }
+
             try
             {
                 await _context.SaveChangesAsync();
