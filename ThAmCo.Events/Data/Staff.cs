@@ -21,7 +21,7 @@ namespace ThAmCo.Events.Data
         public string Role { get; set; }
 
         [ValidateNever]
-        public List<Staffing> Staffing { get; set; }
+        public List<Staffing> Staffings { get; set; }
 
         public bool IsFirstAider { get; set; }
 

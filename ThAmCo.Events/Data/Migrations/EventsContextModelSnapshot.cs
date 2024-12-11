@@ -379,7 +379,7 @@ namespace ThAmCo.Events.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("ThAmCo.Events.Data.Staff", "Staff")
-                        .WithMany("Staffing")
+                        .WithMany("Staffings")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -403,7 +403,7 @@ namespace ThAmCo.Events.Data.Migrations
 
             modelBuilder.Entity("ThAmCo.Events.Data.Staff", b =>
                 {
-                    b.Navigation("Staffing");
+                    b.Navigation("Staffings");
                 });
 #pragma warning restore 612, 618
         }

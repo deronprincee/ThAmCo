@@ -44,7 +44,7 @@ namespace ThAmCo.Events.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Staff>()
-            .HasMany(st => st.Staffing)
+            .HasMany(st => st.Staffings)
             .WithOne(s => s.Staff)
             .HasForeignKey(fi => fi.StaffId)
             .OnDelete(DeleteBehavior.Restrict);

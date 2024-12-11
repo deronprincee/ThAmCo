@@ -49,7 +49,8 @@ namespace ThAmCo.Events.Data.Migrations
                     StaffId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Role = table.Column<string>(type: "TEXT", nullable: false)
+                    Role = table.Column<string>(type: "TEXT", nullable: false),
+                    IsFirstAider = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,14 +137,14 @@ namespace ThAmCo.Events.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Staff",
-                columns: new[] { "StaffId", "Name", "Role" },
+                columns: new[] { "StaffId", "IsFirstAider", "Name", "Role" },
                 values: new object[,]
                 {
-                    { 1, "Michael Brown", "Coordinator" },
-                    { 2, "Emily Davis", "Assistant" },
-                    { 3, "Robert Wilson", "Manager" },
-                    { 4, "Laura Green", "Technician" },
-                    { 5, "David Black", "Security" }
+                    { 1, false, "Michael Brown", "Coordinator" },
+                    { 2, false, "Emily Davis", "Assistant" },
+                    { 3, false, "Robert Wilson", "Manager" },
+                    { 4, false, "Laura Green", "Technician" },
+                    { 5, false, "David Black", "Security" }
                 });
 
             migrationBuilder.InsertData(
