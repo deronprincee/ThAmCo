@@ -7,8 +7,8 @@ namespace ThAmCo.Events.Services
 {
     public class AvailabilityService
     {
-
-        const string ServiceBaseUrl = "https://localhost:7088/api";
+        //This is the base URL for the API service(Retrieved from the properties: launchsetting.json)
+        const string ServiceBaseUrl = "https://localhost:7088";
 
         const string CategoryEndPoint = "/Availability";
         private readonly HttpClient _httpClient; 
